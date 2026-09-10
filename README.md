@@ -5,6 +5,8 @@ no `experimental-features`) + direnv gives you a full toolchain and an
 **isolated VSCodium** — pre-configured Rust IDE, zero manual extension
 installs — automatically, every time you `cd` into the directory.
 
+<img width="1920" height="1080" alt="rustnix" src="https://github.com/user-attachments/assets/4080efb1-3f66-47ff-aab5-83644a813777" />
+
 ## Get started
 
 ```bash
