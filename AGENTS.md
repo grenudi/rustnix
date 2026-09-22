@@ -26,7 +26,11 @@ real code.
 4. **`cargo doc` must build with no warnings** (`RUSTDOCFLAGS=-D warnings`) - undocumented public
    items are a CI failure, not a style nit.
 5. **MSRV is 1.75.0** (`Cargo.toml`'s `rust-version`, `clippy.toml`'s `msrv`, and the CI `msrv` job
-   all need to move together if this ever changes).
+   all need to move together if this ever changes). Dependabot is configured to ignore
+   `dtolnay/rust-toolchain` for exactly this reason - it can't tell "a version pinned as a floor to
+   test against" from "a version to keep current," and will otherwise propose bumping the MSRV job
+   to the latest Rust release, silently defeating it. If you ever do want a real MSRV bump, do it by
+   hand in all three places, deliberately - never accept a Dependabot PR that touches this pin.
 6. **Never edit `CHANGELOG.md` by hand** - `release-plz` generates it from commit history via
    `cliff.toml`. A commit can add a `User-Facing: <text>` footer to control exactly what shows up
    in the changelog line, when the raw commit message isn't the right wording for a release note.

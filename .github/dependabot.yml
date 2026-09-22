@@ -14,3 +14,12 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
+    ignore:
+      # dtolnay/rust-toolchain@1.75.0 in the msrv job is the MSRV pin, not a
+      # version to keep current - Dependabot has no way to tell "a version
+      # number used as a floor to test against" apart from "a version number
+      # used as a dependency to keep current", and will otherwise open a PR
+      # that silently defeats the whole job by bumping it to latest. Found
+      # for real: Dependabot opened exactly this PR (1.75.0 -> 1.120.0)
+      # within minutes of this repo going live, not a hypothetical.
+      - dependency-name: "dtolnay/rust-toolchain"
