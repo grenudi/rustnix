@@ -37,6 +37,30 @@ Cargo.toml   → [package] name = "..."
 directory    → rename the folder itself, or `git clone ... <new-name>`
 ```
 
+## Use this template
+
+This repo is a GitHub template - "Use this template" (or `gh repo create --template grenudi/rustnix`)
+gives you a fresh repo with the same devenv plus CI, release automation, and a test scaffold
+already wired up, not just the Nix/VSCodium half. See [`AGENTS.md`](AGENTS.md) for the day-to-day
+conventions and [`CONTRIBUTING.md`](CONTRIBUTING.md) for the commit/PR format.
+
+## CI, releases, and tests
+
+- **CI** (`.github/workflows/ci.yml`): format check, clippy (`--all-targets`, warnings as errors),
+  `cargo test --workspace --all-features`, `cargo doc` with warnings as errors, and an MSRV job
+  pinned to the `rust-version` already set in `Cargo.toml` (1.75.0). Mirrors
+  [argenv](https://github.com/argenv-opencommons/argenv)'s CI, minus its project-specific jobs.
+- **Releases** (`.github/workflows/release-plz.yml`): [release-plz](https://release-plz.dev/) opens
+  and maintains a release PR (version bump + changelog, via `cliff.toml`) on every push to `main`;
+  merging it cuts a release. Needs a `CARGO_REGISTRY_TOKEN` repo secret before it can actually
+  `cargo publish` - without it, the PR/changelog maintenance still works correctly, only the
+  publish step at the end of a merged release needs it.
+- **PR titles** (`.github/workflows/pr-title.yml`): linted against Conventional Commits, since
+  release-plz reads the squash-merged commit (the PR title) to decide the version bump and
+  changelog entry - not every individual commit inside the PR.
+- **Tests** (`tests/`): one file per concern (see `tests/sanity.rs`), matching argenv's
+  `crates/argenv/tests/*.rs` layout, rather than one large `tests.rs`.
+
 ## No `dev` command
 
 Earlier drafts of this had a separate `./dev` launcher script. It's
