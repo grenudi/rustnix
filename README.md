@@ -29,13 +29,18 @@ gone again — nothing leaks into your global environment.
 
 ## Renaming for your actual project
 
-Two things to change after cloning — nothing else references the
+Three things to change after cloning — nothing else references the
 template name:
 
 ```
 Cargo.toml   → [package] name = "..."
+Cargo.toml   → remove the `publish = false` line once this is a real crate you intend to publish
 directory    → rename the folder itself, or `git clone ... <new-name>`
 ```
+
+`publish = false` is there so release-plz's first real release doesn't try to push a
+crate named `rust-boilerplate` to crates.io - it's what stops `cargo publish`
+outright, with a clear reason, instead of failing on a missing token.
 
 ## Use this template
 

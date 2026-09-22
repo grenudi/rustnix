@@ -37,8 +37,12 @@ real code.
 
 ## Releases
 Every push to `main` updates one open release PR (version bump + changelog). Merging it cuts the
-release and, once `CARGO_REGISTRY_TOKEN` is set as a repo secret, publishes to crates.io. Nothing
-else triggers a release - no manual tagging, no separate publish step.
+release (git tag + GitHub Release) and, once `CARGO_REGISTRY_TOKEN` is set as a repo secret,
+publishes to crates.io. Nothing else triggers a release - no manual tagging, no separate publish
+step. Until `Cargo.toml`'s `publish = false` is removed (see README's "Renaming for your actual
+project"), the crates.io publish step is skipped outright - found for real: the first release
+attempt on this template failed with "please provide a non-empty token" before this line existed,
+because a boilerplate placeholder crate has no business on crates.io regardless of a token.
 
 ## Why it's built this way
 This template exists so a new project's *process* (CI, releases, test layout) doesn't need to be
