@@ -21,6 +21,13 @@ jobs:
         with:
           fetch-depth: 0
       - uses: dtolnay/rust-toolchain@stable
+      # Same requirement as ci.yml: .cargo/config.toml needs mold, not present on a bare Actions
+      # runner. release-plz builds the package to verify the tarball before it will tag/publish,
+      # so it hits the same missing-linker failure ci.yml already works around - found for real,
+      # the first release attempt on this repo failed here ("cannot find 'ld'") because this
+      # workflow didn't have the same fix yet.
+      - name: Install mold
+        run: sudo apt-get update && sudo apt-get install -y mold
       - uses: MarcoIeni/release-plz-action@v0.5
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
